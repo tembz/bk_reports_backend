@@ -19,7 +19,7 @@ async def get_reports(limit: int = 30, offset: int = 0):
         report_dict.pop("comments", None)
         report_dict.update({
             "short_name": short_name,
-            "report_type": "день" if report.report_type == "day" else "ночь" if report.report_type == "night" else report.report_type,
+            "report_type": "день" if report.report_type == "day" else "ночь",
             "comment": getattr(report, "comments", ""),
             "itph": float(report.itph)
         })
@@ -41,33 +41,28 @@ async def create_new_report(request: Request):
     content_type = request.headers.get("content-type", "")
     
     if "multipart/form-data" in content_type:
-        form = await request.form()
-        data = {
-            "report_type": form.get("report_type"),
-            "checks": int(form.get("checks", 0)),
-            "itph": float(form.get("itph", 0)),
-            "money": int(form.get("money", 0)),
-            "sos": int(form.get("sos", 0)),
-            "sos_delivery": int(form.get("sos_delivery", 0)),
-            "guest_experience": int(form.get("guest_experience", 0)),
-            "comments": form.get("comments", "")
-        }
-        photos: List[UploadFile] = [file for key, file in form.multi_items() if key.startswith("photo")]
+        source = await request.form()
+        photos = [file for key, file in source.multi_items() if key.startswith("photo")]
     else:
-        json_data = await request.json()
-        data = {
-            "report_type": json_data.get("report_type"),
-            "checks": int(json_data.get("checks", 0)),
-            "itph": float(json_data.get("itph", 0)),
-            "money": int(json_data.get("money", 0)),
-            "sos": int(json_data.get("sos", 0)),
-            "sos_delivery": int(json_data.get("sos_delivery", 0)),
-            "guest_experience": int(json_data.get("guest_experience", 0)),
-            "comments": json_data.get("comments", "")
-        }
+        source = await request.json()
         photos = []
+
+    data = {
+        "report_type": source.get("report_type"),
+        "checks": int(source.get("checks", 0)),
+        "itph": float(source.get("itph", 0)),
+        "money": int(source.get("money", 0)),
+        "sos": int(source.get("sos", 0)),
+        "sos_delivery": int(source.get("sos_delivery", 0)),
+        "guest_experience": int(source.get("guest_experience", 0)),
+        "comments": source.get("comments", "")
+    }    
+    photos = []
     
     report_type = data["report_type"]
+    if report_type not in ("day", "night"):
+        return {"status": "error", "error": "invalid report type", "code": 422}
+    
     if report_type == "night":
         current_date = datetime.now() - timedelta(days=1)
     
@@ -82,5 +77,5 @@ async def create_new_report(request: Request):
         await send_photos_to_chat(photos)
     await send_message_to_chat(data=data, date=current_date.strftime('%d.%m.%Y'), manager=manager.short_name)
     await add_new_report(data, date=current_date, admin_id=admin_id)
-    
+
     return {"status": "success", "data": {"ok": True}}

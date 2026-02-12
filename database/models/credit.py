@@ -19,7 +19,7 @@ class Credit(Base):
     measurement_unit: Mapped[str] = mapped_column(String, nullable=False)
     repayment_date: Mapped[str] = mapped_column(Date, nullable=True)
     is_transfer: Mapped[bool] = mapped_column(Boolean, nullable=False)
-    credit_type: Mapped[str] = mapped_column(String, nullable=False)
+    credit_type: Mapped[str] = mapped_column("type", String, nullable=False)
     count: Mapped[float] = mapped_column(Float, nullable=False)
     case_count: Mapped[str] = mapped_column(String, nullable=True)
     is_active: Mapped[bool] = mapped_column(Boolean, nullable=False)

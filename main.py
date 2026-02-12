@@ -1,8 +1,7 @@
 from contextlib import asynccontextmanager
 
 from aiogram import Bot
-from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse
+from fastapi import FastAPI
 
 from handlers import routers
 from middlewares.auth import AuthMiddleware
