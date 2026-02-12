@@ -1,2 +1,3 @@
+from .report import report_handler
 
-routers = []
+routers = [report_handler]

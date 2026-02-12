@@ -1,4 +1,5 @@
 from fastapi import Request
+from fastapi.responses import JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware
 
 from aiogram.utils.web_app import safe_parse_webapp_init_data
@@ -13,21 +14,27 @@ class AuthMiddleware(BaseHTTPMiddleware):
         super().__init__(app)
 
     async def dispatch(self, request, call_next):
-        init_data_reult = await self.check_init_data(request)
-        if init_data_reult:
-            check_user = await get_user(init_data_reult)
-            if not check_user:
+        try:
+            init_data_reult = await self.check_init_data(request)
+            if init_data_reult:
+                check_user = await get_user(init_data_reult)
+                if not check_user:
+                    raise AuthError
+                request.state.admin_id = init_data_reult
+                return await call_next(request)
+            
+            token_result = await self.check_token(request)
+            if token_result is False:
                 raise AuthError
-            return await call_next(request)
-        
-        token_result = await self.check_token(request)
-        if token_result is False:
-            raise AuthError
-        if token_result:
-            return await call_next(request)
-        
-        raise TokenOrInitDataRequired
-    
+            if token_result:
+                request.state.admin_id = token_result
+                return await call_next(request)
+            
+            raise TokenOrInitDataRequired
+        except AuthError:
+            return JSONResponse(content={"code": 401, "error": "Unauthorized", "status": "error"}, status_code=401)
+        except TokenOrInitDataRequired:
+            return JSONResponse(content={"code": 401, "error": "Token or InitData is required", "status": "error"}, status_code=401)
 
     async def check_token(self, request: Request) -> int | bool | None:
         token = None

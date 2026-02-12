@@ -13,7 +13,7 @@ class Credit(Base):
     __tablename__ = "credits"
 
     id: Mapped[int] = mapped_column(BigInteger, autoincrement=True, primary_key=True)              
-    date: Mapped[str] = mapped_column(Date, nullable=False, default=datetime.date())
+    date: Mapped[datetime.date] = mapped_column(Date, nullable=False, default=datetime.today)
     restaurant: Mapped[int] = mapped_column(BigInteger, nullable=False)
     what_take: Mapped[str] = mapped_column(String, nullable=False)
     measurement_unit: Mapped[str] = mapped_column(String, nullable=False)
