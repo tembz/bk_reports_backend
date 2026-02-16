@@ -68,7 +68,7 @@ async def create_new_report(request: Request):
     
     report = await check_report(current_date, report_type)
     if report:
-        return {"status": "success", "data": {"ok": False, "items": [], "msg": "Отчёт такого типа за сегодня уже существует."}}
+        return {"status": "success", "data": {"ok": False, "msg": "Отчёт такого типа за сегодня уже существует."}}
     
     manager = await get_user(admin_id)
     
@@ -76,6 +76,6 @@ async def create_new_report(request: Request):
     if photos:
         await send_photos_to_chat(photos)
     await send_message_to_chat(data=data, date=current_date.strftime('%d.%m.%Y'), manager=manager.short_name)
-    await add_new_report(data, date=current_date, admin_id=admin_id)
+    #await add_new_report(data, date=current_date, admin_id=admin_id)
 
     return {"status": "success", "data": {"ok": True}}

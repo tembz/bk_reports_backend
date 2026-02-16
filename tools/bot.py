@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 import tempfile
 from typing import List
 
@@ -48,3 +49,23 @@ async def send_message_to_chat(data: dict, date: str, manager: str):
         text = text + f"<pre><code class='language-Комментарии'>{data['comments']}</code></pre>"
 
     await config.bot.send_message(chat_id=config.admin_chat_id, parse_mode=ParseMode.HTML, text=text)
+
+async def send_credit_message_to_chat(data: dict):
+    credit_type = "Взяли" if data["credit_type"] == "take" else "Дали"
+    print(data['repayment_date'])
+    text = (
+        f"<code>🔔 Долг | {data['date'].strftime('%d-%m-%Y')}\n"
+        f"- Действие: {credit_type}\n"
+        f"- Ресторан: {data['restaurant']}\n"
+        f"- Предмет: {data['what_take']}\n"
+        f"- Ед. Измерения: {data['measurement_unit']}\n"
+        f"- Количество: {data['count']}\n"
+        + (
+            f"- Дата возвращения: {datetime.fromisoformat(data['repayment_date']).strftime('%d-%m-%Y')}\n"
+            if not data['is_transfer']
+            else ""
+        )
+        + f"- Трансфер: {'Да' if data['is_transfer'] else 'Нет'}</code>"
+    )
+
+    await config.bot.send_message(chat_id=config.credit_chat_id, parse_mode=ParseMode.HTML, text=text)
