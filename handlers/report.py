@@ -76,6 +76,6 @@ async def create_new_report(request: Request):
     if photos:
         await send_photos_to_chat(photos)
     await send_message_to_chat(data=data, date=current_date.strftime('%d.%m.%Y'), manager=manager.short_name)
-    #await add_new_report(data, date=current_date, admin_id=admin_id)
+    await add_new_report(data, date=current_date, admin_id=admin_id)
 
     return {"status": "success", "data": {"ok": True}}
