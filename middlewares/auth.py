@@ -15,6 +15,8 @@ class AuthMiddleware(BaseHTTPMiddleware):
 
     async def dispatch(self, request, call_next):
         try:
+            if request.url.path == "/auth/createToken":
+                return await call_next(request)
             init_data_reult = await self.check_init_data(request)
             if init_data_reult:
                 check_user = await get_user(init_data_reult)

@@ -1,7 +1,8 @@
 from contextlib import asynccontextmanager
 
 from aiogram import Bot
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
 
 from handlers import routers
 from middlewares.auth import AuthMiddleware
@@ -26,6 +27,17 @@ async def main(app: FastAPI):
 app = FastAPI(lifespan=main)
 
 app.add_middleware(AuthMiddleware)
+
+@app.exception_handler(Exception)
+async def exception_handler(request: Request, exc: Exception):
+    return JSONResponse(
+        status_code=500,
+        content={
+            "status": "error",
+            "code": 500,
+            "error": "internal server error"
+        },
+    )
 
 for router in routers:
     app.include_router(router)
