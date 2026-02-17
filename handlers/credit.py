@@ -35,7 +35,7 @@ async def toggle_credit_status(credit_id: int):
     return {"status": "success", "data": {"ok": True}}
 
 
-@credit_handler.post("/create")
+#@credit_handler.post("/create")
 async def create_new_credit(request: Request):
     source = await request.json()
     data = {
@@ -48,6 +48,26 @@ async def create_new_credit(request: Request):
         "credit_type": source.get("credit_type", ""),
         "count": float(source.get("count", 0))
     }
+    await send_credit_message_to_chat(data)
+    await add_new_credit(data)
+    return {"status": "success", "data": {"ok": True}}
+
+
+@credit_handler.post("/create")
+async def create_new_credit(request: Request):
+    form = await request.form()
+    
+    data = {
+        "date": datetime.today(),
+        "restaurant": int(form.get("restaurant", 0)),
+        "what_take": form.get("what_take", ""),
+        "measurement_unit": form.get("measurement_unit", ""),
+        "repayment_date": form.get("repayment_date", datetime.today()),
+        "is_transfer": form.get("is_transfer", "false").lower() == "true",
+        "credit_type": form.get("credit_type", ""),
+        "count": float(form.get("count", 0))
+    }
+
     await send_credit_message_to_chat(data)
     await add_new_credit(data)
     return {"status": "success", "data": {"ok": True}}
