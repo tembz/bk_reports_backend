@@ -17,9 +17,6 @@ from exceptions import *
 async def main(app: FastAPI):
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
-
-    config.bot = Bot(config.token)
-
     yield
 
     await config.bot.session.close()

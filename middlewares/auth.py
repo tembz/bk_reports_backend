@@ -17,12 +17,12 @@ class AuthMiddleware(BaseHTTPMiddleware):
         try:
             if request.url.path == "/auth/createToken":
                 return await call_next(request)
-            init_data_reult = await self.check_init_data(request)
-            if init_data_reult:
-                check_user = await get_user(init_data_reult)
+            init_data_result = await self.check_init_data(request)
+            if init_data_result:
+                check_user = await get_user(init_data_result)
                 if not check_user:
                     raise AuthError
-                request.state.admin_id = init_data_reult
+                request.state.admin_id = init_data_result
                 return await call_next(request)
             
             token_result = await self.check_token(request)

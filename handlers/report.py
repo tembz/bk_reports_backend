@@ -56,8 +56,7 @@ async def create_new_report(request: Request):
         "sos_delivery": int(source.get("sos_delivery", 0)),
         "guest_experience": int(source.get("guest_experience", 0)),
         "comments": source.get("comments", "")
-    }    
-    photos = []
+    }
     
     report_type = data["report_type"]
     if report_type not in ("day", "night"):
@@ -71,7 +70,6 @@ async def create_new_report(request: Request):
         return {"status": "success", "data": {"ok": False, "msg": "Отчёт такого типа за сегодня уже существует."}}
     
     manager = await get_user(admin_id)
-    
 
     if photos:
         await send_photos_to_chat(photos)
