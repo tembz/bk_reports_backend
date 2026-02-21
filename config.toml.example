@@ -1,0 +1,17 @@
+[telegram-bot]
+token = "token"
+
+[server]
+port = "5050"
+
+[database]
+host = "1.1.1.1"
+port = "5432"
+user = "user"
+password = "password"
+dbname = "dbname"
+
+[admin]
+admin_roles = ["admin", "owner", "director"]
+admin_chat_id = 0
+credit_chat_id = 0
