@@ -4,6 +4,7 @@ from fastapi import APIRouter, Request
 
 from database.methods.credit import get_db_credits, update_credit_status, add_new_credit
 from tools.bot import send_credit_message_to_chat
+from tools.responses import *
 
 credit_handler = APIRouter(prefix="/api/credit")
 
@@ -21,18 +22,12 @@ async def get_credits(limit: int = 30, offset: int = 0):
 
         credit_list.append(credit_dict)
 
-    return {
-        "status": "success",
-        "data": {
-            "items": credit_list,
-            "ok": True
-        }
-    }
+    return HTTPSuccess({"items": credit_list})
 
 @credit_handler.get("/toggle")
 async def toggle_credit_status(credit_id: int):
     await update_credit_status(credit_id)
-    return {"status": "success", "data": {"ok": True}}
+    return HTTPSuccess()
 
 @credit_handler.post("/create")
 async def create_new_credit(request: Request):
@@ -51,4 +46,4 @@ async def create_new_credit(request: Request):
 
     await send_credit_message_to_chat(data)
     await add_new_credit(data)
-    return {"status": "success", "data": {"ok": True}}
+    return HTTPSuccess()

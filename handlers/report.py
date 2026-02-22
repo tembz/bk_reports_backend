@@ -6,6 +6,7 @@ from fastapi import APIRouter, UploadFile, File, Request
 from database.methods.report import get_db_reports, check_report, add_new_report
 from database.methods.user import get_user
 from tools.bot import send_photos_to_chat, send_message_to_chat
+from tools.responses import *
 
 report_handler = APIRouter(prefix="/api/report")
 
@@ -25,13 +26,7 @@ async def get_reports(limit: int = 30, offset: int = 0):
         })
         report_items.append(report_dict)
 
-    return {
-        "status": "success",
-        "data": {
-            "items": report_items,
-            "ok": True
-        }
-    }
+    return HTTPSuccess({"items": report_items})
 
 
 @report_handler.post("/create")
@@ -60,15 +55,15 @@ async def create_new_report(request: Request):
     
     report_type = data["report_type"]
     if report_type not in ("day", "night"):
-        return {"status": "error", "error": "invalid report type", "code": 422}
+        return HTTPError("invalid report type", 422)
     
     if report_type == "night":
         current_date = datetime.now() - timedelta(days=1)
     
     report = await check_report(current_date, report_type)
     if report:
-        return {"status": "success", "data": {"ok": False, "msg": "Отчёт такого типа за сегодня уже существует."}}
-    
+        return HTTPError("report with this type already exists for today", 409)
+
     manager = await get_user(admin_id)
 
     if photos:
@@ -76,4 +71,4 @@ async def create_new_report(request: Request):
     await send_message_to_chat(data=data, date=current_date.strftime('%d.%m.%Y'), manager=manager.short_name)
     await add_new_report(data, date=current_date, admin_id=admin_id)
 
-    return {"status": "success", "data": {"ok": True}}
+    return HTTPSuccess()

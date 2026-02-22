@@ -1,6 +1,8 @@
+import time
 from typing import Optional
 
 from sqlalchemy import select, update
+from sqlalchemy.exc import IntegrityError
 
 from database.models import Token
 from database.engine import db_session
@@ -25,3 +27,17 @@ async def set_token(user_id: int, token: str) -> bool:
         )
         await session.execute(stmt)
         await session.commit()
+        return True
+
+async def set_code(user_id: int, code: int) -> bool:
+    async with db_session() as session:
+        try:
+            new = Token(user_id=user_id, code=code, created_at=time.time())
+            session.add(new)
+            await session.commit()
+            return True
+        except IntegrityError:
+            return False
+        
+
+        
