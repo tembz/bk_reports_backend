@@ -20,7 +20,7 @@ class Config:
 
     @classmethod
     def load(cls) -> "Config":
-        with open("src/config.toml", "rb") as f:
+        with open("config.toml", "rb") as f:
             data = tomllib.load(f)
 
         return cls(
