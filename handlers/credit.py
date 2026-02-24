@@ -1,10 +1,11 @@
 from datetime import datetime
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, Depends
 
 from database.methods.credit import get_db_credits, update_credit_status, add_new_credit
 from tools.bot import send_credit_message_to_chat
 from tools.responses import *
+from tools.schemas import NewCredit
 
 credit_handler = APIRouter(prefix="/api/credit")
 
@@ -30,19 +31,10 @@ async def toggle_credit_status(credit_id: int):
     return HTTPSuccess()
 
 @credit_handler.post("/create")
-async def create_new_credit(request: Request):
-    form = await request.form()
-    
-    data = {
-        "date": datetime.today(),
-        "restaurant": int(form.get("restaurant", 0)),
-        "what_take": form.get("what_take", ""),
-        "measurement_unit": form.get("measurement_unit", ""),
-        "repayment_date": form.get("repayment_date", datetime.today()),
-        "is_transfer": form.get("is_transfer", "false").lower() == "true",
-        "credit_type": form.get("credit_type", ""),
-        "count": float(form.get("count", 0))
-    }
+async def create_new_credit(credit: NewCredit = Depends()):
+
+    data = credit.model_dump()
+    data["date"] = datetime.today()
 
     await send_credit_message_to_chat(data)
     await add_new_credit(data)

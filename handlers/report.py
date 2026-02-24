@@ -1,12 +1,13 @@
 from typing import Optional, List
 from datetime import datetime, timedelta
 
-from fastapi import APIRouter, UploadFile, File, Request
+from fastapi import APIRouter, File, Request
 
 from database.methods.report import get_db_reports, check_report, add_new_report
 from database.methods.user import get_user
 from tools.bot import send_photos_to_chat, send_message_to_chat
 from tools.responses import *
+from tools.schemas import NewReport
 
 report_handler = APIRouter(prefix="/api/report")
 
@@ -38,29 +39,16 @@ async def create_new_report(request: Request):
     if "multipart/form-data" in content_type:
         source = await request.form()
         photos = [file for key, file in source.multi_items() if key.startswith("photo")]
+        data = NewReport.model_validate(dict(source))
     else:
         source = await request.json()
         photos = []
-
-    data = {
-        "report_type": source.get("report_type"),
-        "checks": int(source.get("checks", 0)),
-        "itph": float(source.get("itph", 0)),
-        "money": int(source.get("money", 0)),
-        "sos": int(source.get("sos", 0)),
-        "sos_delivery": int(source.get("sos_delivery", 0)),
-        "guest_experience": int(source.get("guest_experience", 0)),
-        "comments": source.get("comments", "")
-    }
+        data = NewReport.model_validate(source)
     
-    report_type = data["report_type"]
-    if report_type not in ("day", "night"):
-        return HTTPError("invalid report type", 422)
-    
-    if report_type == "night":
+    if data.report_type == "night":
         current_date = datetime.now() - timedelta(days=1)
     
-    report = await check_report(current_date, report_type)
+    report = await check_report(current_date, data.report_type)
     if report:
         return HTTPError("report with this type already exists for today", 409)
 
@@ -68,7 +56,7 @@ async def create_new_report(request: Request):
 
     if photos:
         await send_photos_to_chat(photos)
-    await send_message_to_chat(data=data, date=current_date.strftime('%d.%m.%Y'), manager=manager.short_name)
-    await add_new_report(data, date=current_date, admin_id=admin_id)
+    await send_message_to_chat(data=data.model_dump(), date=current_date.strftime('%d.%m.%Y'), manager=manager.short_name)
+    await add_new_report(data.model_dump(), date=current_date, admin_id=admin_id)
 
     return HTTPSuccess()

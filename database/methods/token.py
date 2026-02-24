@@ -1,7 +1,7 @@
 import time
 from typing import Optional
 
-from sqlalchemy import select, update
+from sqlalchemy import select, update, delete
 from sqlalchemy.exc import IntegrityError
 
 from database.models import Token
@@ -39,5 +39,10 @@ async def set_code(user_id: int, code: int) -> bool:
         except IntegrityError:
             return False
         
-
-        
+async def delete_code(code: int) -> None:
+    async with db_session() as session:
+        await session.execute(
+            delete(Token)
+            .where(Token.code == code)
+        )
+        await session.execute()
