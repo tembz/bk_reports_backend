@@ -4,8 +4,8 @@ from typing import Optional
 from sqlalchemy import select, update, delete
 from sqlalchemy.exc import IntegrityError
 
-from database.models import Token
-from database.engine import db_session
+from src.database.models import Token
+from src.database.engine import db_session
 
 async def get_user_id_by_code(code: int) -> Optional[Token]:
     async with db_session() as session:

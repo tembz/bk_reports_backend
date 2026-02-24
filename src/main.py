@@ -2,14 +2,14 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
-from tools.app_init import App
+from src.tools.app_init import App
 
-from handlers import routers
-from middlewares import excs, middlewares
+from src.handlers import routers
+from src.middlewares import excs, middlewares
 
-from config import config
-from database.models.base import Base
-from database.engine import engine
+from src.config import config
+from src.database.models.base import Base
+from src.database.engine import engine
 
 @asynccontextmanager
 async def main(app: FastAPI):

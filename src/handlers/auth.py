@@ -4,9 +4,9 @@ from secrets import token_hex
 
 from fastapi import APIRouter, Request
 
-from database.methods.token import get_user_id_by_code, set_token, set_code, delete_code
-from tools.tools import decode_secret
-from tools.responses import *
+from src.database.methods.token import get_user_id_by_code, set_token, set_code, delete_code
+from src.tools.tools import decode_secret
+from src.tools.responses import *
 
 auth_handler = APIRouter()
 

@@ -3,7 +3,7 @@ import hmac
 import hashlib
 from typing import Optional
 
-from config import config
+from src.config import config
 
 def decode_secret(secret: str) -> Optional[int]:
     try:

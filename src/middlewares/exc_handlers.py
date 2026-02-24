@@ -3,8 +3,8 @@ from fastapi.responses import JSONResponse
 
 from pydantic import ValidationError
 
-from exceptions import *
-from tools.responses import HTTPError
+from src.exceptions import *
+from src.tools.responses import HTTPError
 
 async def auth_error_handler(request: Request, exc: AuthError):
     return JSONResponse(

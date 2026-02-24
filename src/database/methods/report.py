@@ -2,8 +2,8 @@ import time
 
 from sqlalchemy import text, select
 
-from database.models import Report, User
-from database.engine import db_session
+from src.database.models import Report, User
+from src.database.engine import db_session
 
 async def get_db_reports(offset: int, limit: int):
     stmt = (

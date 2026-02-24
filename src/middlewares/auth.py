@@ -4,9 +4,9 @@ from starlette.middleware.base import BaseHTTPMiddleware
 
 from aiogram.utils.web_app import safe_parse_webapp_init_data
 
-from config import config
-from exceptions import AuthError, TokenOrInitDataRequired
-from database.methods.user import get_user, check_token
+from src.config import config
+from src.exceptions import AuthError, TokenOrInitDataRequired
+from src.database.methods.user import get_user, check_token
 
 class AuthMiddleware(BaseHTTPMiddleware):
 

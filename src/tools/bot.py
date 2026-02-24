@@ -1,14 +1,14 @@
 import os
-from datetime import datetime
 import tempfile
+from datetime import datetime
 from typing import List
 
 from fastapi import UploadFile
 from aiogram.types import FSInputFile, InputMediaPhoto
 from aiogram.enums import ParseMode
 
-from config import config
-from tools.formatting import format_nums, format_seconds
+from src.config import config
+from src.tools.formatting import format_nums, format_seconds
 
 async def send_photos_to_chat(photos: List[UploadFile]):
     media_group = []
