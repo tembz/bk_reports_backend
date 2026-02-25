@@ -5,7 +5,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from aiogram.utils.web_app import safe_parse_webapp_init_data
 
 from src.config import config
-from src.exceptions import AuthError, TokenOrInitDataRequired
+from src.exceptions import AuthError, TokenOrInitDataRequired, AccessDenied
 from src.database.methods.user import get_user, check_token
 
 class AuthMiddleware(BaseHTTPMiddleware):
@@ -20,6 +20,8 @@ class AuthMiddleware(BaseHTTPMiddleware):
             init_data_result = await self.check_init_data(request)
             if init_data_result:
                 check_user = await get_user(init_data_result)
+                if check_user.role not in config.admin_roles:
+                    raise AccessDenied
                 if not check_user:
                     raise AuthError
                 request.state.admin_id = init_data_result
@@ -37,7 +39,9 @@ class AuthMiddleware(BaseHTTPMiddleware):
             return JSONResponse(content={"code": 401, "error": "Unauthorized", "status": "error"}, status_code=401)
         except TokenOrInitDataRequired:
             return JSONResponse(content={"code": 401, "error": "Token or InitData is required", "status": "error"}, status_code=401)
-
+        except AccessDenied:
+            return JSONResponse(content={"code": 403, "error": "access deniend"}, status_code=403)
+        
     async def check_token(self, request: Request) -> int | bool | None:
         token = None
 
