@@ -7,7 +7,6 @@ from aiogram import Bot
 @dataclass
 class Config:
     token: str
-    port: int
     db_host: str
     db_port: int
     db_user: str
@@ -25,7 +24,6 @@ class Config:
 
         return cls(
             token=data["telegram-bot"]["token"],
-            port=data["server"]["port"],
             db_host=data["database"]["host"],
             db_port=data["database"]["port"],
             db_user=data["database"]["user"],

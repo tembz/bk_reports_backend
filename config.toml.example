@@ -1,9 +1,6 @@
 [telegram-bot]
 token = "token"
 
-[server]
-port = "5050"
-
 [database]
 host = "1.1.1.1"
 port = "5432"
