@@ -3,7 +3,7 @@ from typing import Callable, TypeAlias, Optional
 from fastapi import FastAPI, APIRouter
 from starlette.middleware.base import BaseHTTPMiddleware
 
-ExcHandler: TypeAlias = tuple[type[Exception], Callable]
+type ExcHandler = tuple[type[Exception], Callable]
 
 class App:
 
