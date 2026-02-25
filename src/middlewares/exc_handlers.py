@@ -30,8 +30,25 @@ async def validation_error_handler(request: Request, exc: ValidationError):
                 error_data=[{"param": e["loc"][0]} 
                             for e in missing_errors])
         )
-    
+    errors = exc.errors()
 
+    if errors[0]["type"] == "literal_error":
+        return JSONResponse(
+            status_code=422,
+            content=HTTPError(
+                error_name="invalid type",
+                code=422,
+                error_data={"param": errors[0]["loc"][0], "available values": errors[0]["ctx"]["expected"]}
+            )
+        )
+    else:
+        return JSONResponse(
+            status_code=422,
+            content=HTTPError(
+                error_name="validation error",
+                code=422,
+            )
+        )
 
 async def internal_error_handler(request: Request, exc: Exception):
     return JSONResponse(

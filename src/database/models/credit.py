@@ -23,3 +23,12 @@ class Credit(Base):
     count: Mapped[float] = mapped_column(Float, nullable=False)
     case_count: Mapped[str] = mapped_column(String, nullable=True)
     is_active: Mapped[bool] = mapped_column(Boolean, nullable=False)
+
+    def __repr__(self):
+        return (
+            f"Credit(id={self.id}, date={self.date}, restaurant={self.restaurant}, "
+            f"what_take={self.what_take}, measurement_unit={self.measurement_unit}, "
+            f"repayment_date={self.repayment_date}, is_transfer={self.is_transfer}, "
+            f"credit_type={self.credit_type}, count={self.count}, "
+            f"case_count={self.case_count}, is_active={self.is_active})"
+        )

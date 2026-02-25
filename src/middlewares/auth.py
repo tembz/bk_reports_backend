@@ -40,7 +40,7 @@ class AuthMiddleware(BaseHTTPMiddleware):
         except TokenOrInitDataRequired:
             return JSONResponse(content={"code": 401, "error": "Token or InitData is required", "status": "error"}, status_code=401)
         except AccessDenied:
-            return JSONResponse(content={"code": 403, "error": "access deniend"}, status_code=403)
+            return JSONResponse(content={"code": 403, "error": "access deniend", "status": "error"}, status_code=403)
         
     async def check_token(self, request: Request) -> int | bool | None:
         token = None

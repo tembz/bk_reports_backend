@@ -10,3 +10,9 @@ class Token(Base):
     token: Mapped[str] = mapped_column(String, nullable=True)
     code: Mapped[int] = mapped_column(Integer, nullable=True)
     created_at: Mapped[float] = mapped_column(Float, nullable=True)
+
+    def __repr__(self):
+        return (
+            f"Token(user_id={self.user_id}, token={self.token}, "
+            f"code={self.code}, created_at={self.created_at})"
+        )
