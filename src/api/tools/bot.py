@@ -7,8 +7,8 @@ from fastapi import UploadFile
 from aiogram.types import FSInputFile, InputMediaPhoto
 from aiogram.enums import ParseMode
 
-from src.config import config
-from src.tools.formatting import format_nums, format_seconds
+from src.api.config import config
+from src.api.tools.formatting import format_nums, format_seconds
 
 async def send_photos_to_chat(photos: List[UploadFile]):
     media_group = []

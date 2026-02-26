@@ -2,10 +2,10 @@ from datetime import datetime
 
 from fastapi import APIRouter, Depends
 
-from src.database.methods.credit import get_db_credits, update_credit_status, add_new_credit
-from src.tools.bot import send_credit_message_to_chat
-from src.tools.responses import *
-from src.tools.schemas import NewCredit
+from src.api.database.methods.credit import get_db_credits, update_credit_status, add_new_credit
+from src.api.tools.bot import send_credit_message_to_chat
+from src.api.tools.responses import *
+from src.api.tools.schemas import NewCredit
 
 credit_handler = APIRouter(prefix="/api/credit")
 

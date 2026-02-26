@@ -4,9 +4,9 @@ from secrets import token_hex
 
 from fastapi import APIRouter, Request
 
-from src.database.methods.token import get_user_id_by_code, set_token, set_code, delete_code
-from src.tools.tools import decode_secret
-from src.tools.responses import *
+from src.api.database.methods.token import get_user_id_by_code, set_token, set_code, delete_code
+from src.api.tools.tools import decode_secret
+from src.api.tools.responses import *
 
 auth_handler = APIRouter()
 
@@ -25,7 +25,7 @@ async def create_token(request: Request):
         return HTTPError("invalid code", 401)
     
     if time.time() - code_info.created_at >= 300:
-        await delete_code
+        await delete_code(code)
         return HTTPError("code expired", 410)
 
     token = token_hex(16)

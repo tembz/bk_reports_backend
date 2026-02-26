@@ -3,11 +3,11 @@ from datetime import datetime, timedelta
 
 from fastapi import APIRouter, File, Request
 
-from src.database.methods.report import get_db_reports, check_report, add_new_report
-from src.database.methods.user import get_user
-from src.tools.bot import send_photos_to_chat, send_message_to_chat
-from src.tools.responses import *
-from src.tools.schemas import NewReport
+from src.api.database.methods.report import get_db_reports, check_report, add_new_report
+from src.api.database.methods.user import get_user
+from src.api.tools.bot import send_photos_to_chat, send_message_to_chat
+from src.api.tools.responses import *
+from src.api.tools.schemas import NewReport
 
 report_handler = APIRouter(prefix="/api/report")
 

@@ -12,3 +12,14 @@ dbname = "dbname"
 admin_roles = ["admin", "owner", "director"]
 admin_chat_id = 0
 credit_chat_id = 0
+owner_tg_id = 0
+
+[email]
+smtp_server = "smtp.example.com"
+smtp_port = 587
+email_user = "you_mail@example.com"
+email_password = "supersecretpassword"
+to_email = "bk-0@burgerkingrus.ru"
+
+[server]
+api_url = "https://domain.com/api"

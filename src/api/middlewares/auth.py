@@ -4,9 +4,11 @@ from starlette.middleware.base import BaseHTTPMiddleware
 
 from aiogram.utils.web_app import safe_parse_webapp_init_data
 
-from src.config import config
-from src.exceptions import AuthError, TokenOrInitDataRequired, AccessDenied
-from src.database.methods.user import get_user, check_token
+from src.api.config import config
+from src.api.exceptions import AuthError, TokenOrInitDataRequired, AccessDenied
+from src.api.database.methods.user import get_user, check_token
+from src.api.tools.responses import HTTPError
+from src.api.tools.tools import decode_secret
 
 class AuthMiddleware(BaseHTTPMiddleware):
 
@@ -34,13 +36,20 @@ class AuthMiddleware(BaseHTTPMiddleware):
                 request.state.admin_id = token_result
                 return await call_next(request)
             
+            secret_key_result = await self.check_secret_key(request)
+            if secret_key_result is False:
+                raise AuthError
+            if secret_key_result:
+                request.state.admin_id = secret_key_result
+                return await call_next(request)
+            
             raise TokenOrInitDataRequired
         except AuthError:
-            return JSONResponse(content={"code": 401, "error": "Unauthorized", "status": "error"}, status_code=401)
+            return JSONResponse(content=HTTPError("Unauthorized", 401), status_code=401)
         except TokenOrInitDataRequired:
-            return JSONResponse(content={"code": 401, "error": "Token or InitData is required", "status": "error"}, status_code=401)
+            return JSONResponse(content=HTTPError("Token or InitData is required", 401), status_code=401)
         except AccessDenied:
-            return JSONResponse(content={"code": 403, "error": "access deniend", "status": "error"}, status_code=403)
+            return JSONResponse(content=HTTPError("access deniend", 403), status_code=403)
         
     async def check_token(self, request: Request) -> int | bool | None:
         token = None
@@ -77,3 +86,16 @@ class AuthMiddleware(BaseHTTPMiddleware):
             return parse_init_data.user.id
         except ValueError:
             return False
+        
+    async def check_secret_key(self, request: Request) -> int | bool:
+        secret_key = None
+
+        secret_key = request.headers.get("SecretKey")
+        if not secret_key:
+            return False
+        
+        user_id = decode_secret(secret_key)
+
+        if not user_id:
+            return False
+        return user_id
