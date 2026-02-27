@@ -12,8 +12,7 @@ module.exports = {
     {
       name: "bk-reports-bot",
       script: "poetry",
-      args: "run python -m src.bot.main",
-      cwd: __dirname,
+      args: "run python src/bot/main.py",
       interpreter: "none",
       env: {
         PYTHONUNBUFFERED: "1"
