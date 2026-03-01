@@ -18,11 +18,11 @@ class WhiteList(BaseMiddleware):
                 data["role"] = self.cache[user.id]
                 return await handler(event, data)
             try:
-                user_reponse = await api_client.get(UserResponse, user.id, "user/get", a=1)
-                self.cache[user.id] = user_reponse.data.role
-                data["role"] = user_reponse.data.role
+                user_response = await api_client.get(UserResponse, user.id)
+                self.cache[user.id] = user_response.data.role
+                data["role"] = user_response.data.role
                 return await handler(event, data)
             except APIError:
-                return await event.bot.send_message(chat_id=user.id, text="❌ Вам недоступен функционал")
+                return
 
         

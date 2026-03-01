@@ -1,11 +1,12 @@
 import time
+from datetime import datetime
 
 from sqlalchemy import text, select
 
 from src.api.database.models import Report, User
 from src.api.database.engine import db_session
 
-async def get_db_reports(offset: int, limit: int):
+async def get_db_reports(offset: int, limit: int, date: datetime = None, report_type: str = None):
     stmt = (
         select(Report, User.short_name)
         .join(User, User.id == Report.admin_id)
@@ -13,6 +14,10 @@ async def get_db_reports(offset: int, limit: int):
         .offset(offset)
         .limit(limit)
     )
+    if date:
+        stmt = stmt.where(Report.date == datetime.strptime(date, "%Y-%m-%d").date())
+    if report_type:
+        stmt = stmt.where(Report.report_type == report_type)
 
     async with db_session() as session:
         result = await session.execute(stmt)

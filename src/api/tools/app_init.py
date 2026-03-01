@@ -1,4 +1,4 @@
-from typing import Callable, TypeAlias, Optional
+from typing import Callable, Optional
 
 from fastapi import FastAPI, APIRouter
 from starlette.middleware.base import BaseHTTPMiddleware

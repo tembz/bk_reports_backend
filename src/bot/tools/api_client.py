@@ -22,12 +22,14 @@ class APIClient:
     async def get(self,
                   model: Type[T],
                   user_id: int, 
-                  path: str,
+                  path: Optional[str] = None,
                   **params) -> T:
         secret_key = encode(user_id)
         headers = {"SecretKey": secret_key}
-
-        async with self.session.get(path, headers=headers, params=params) as resp:
+        resolved_path = path or getattr(model, 'path', None)
+        if not resolved_path:
+            raise ValueError("path must be provided either directly or via model.path")
+        async with self.session.get(resolved_path, headers=headers, params=params) as resp:
             data = await resp.json()
             if not resp.ok:
                 raise APIError(ErrorResponse.model_validate(data))
@@ -36,15 +38,17 @@ class APIClient:
     async def post(self,
                    model: Type[T],
                    user_id: int, 
-                   path: str,
+                   path: Optional[str] = None,
                    photos: Optional[List[str]] = None, # photo_file_id
                    bot: Optional[Bot] = None,
                    **params) -> T:
         secret_key = encode(user_id)
         headers = {"SecretKey": secret_key}
         form = await self.create_form(photos, bot, **params)
-
-        async with self.session.post(path, headers=headers, data=form) as resp:
+        resolved_path = path or getattr(model, 'path', None)
+        if not resolved_path:
+            raise ValueError("path must be provided either directly or via model.path")
+        async with self.session.post(resolved_path, headers=headers, data=form) as resp:
             data = await resp.json()
             if not resp.ok:
                 raise APIError(ErrorResponse.model_validate(data))

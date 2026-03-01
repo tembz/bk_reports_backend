@@ -1,3 +1,5 @@
+from typing import ClassVar
+
 from pydantic import BaseModel
 
 class UserData(BaseModel):
@@ -6,5 +8,6 @@ class UserData(BaseModel):
     role: str
 
 class UserResponse(BaseModel):
+    path: ClassVar[str] = "user/get"
     status: str
     data: UserData

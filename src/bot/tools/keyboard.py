@@ -6,3 +6,6 @@ def get_start_keyboard(user_type: str):
     if user_type in ("director", "owner"):
         kb_buttons.append([KeyboardButton(text="📑 Сводная")])
     return ReplyKeyboardBuilder(kb_buttons).as_markup(resize_keyboard=True, one_time=True)
+
+def cancel_keyboard():
+    return ReplyKeyboardBuilder([[KeyboardButton(text="Отменить.")]]).as_markup(resize_keyboard=True, one_time=True)

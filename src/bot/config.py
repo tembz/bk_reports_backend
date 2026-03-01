@@ -6,6 +6,7 @@ from dataclasses import dataclass
 class Config:
     token: str
     owner_tg_id: int
+    admin_roles: list[str]
     api_url: str
     smtp_server: Optional[str] = None
     smtp_port: Optional[int] = None
@@ -23,6 +24,7 @@ class Config:
         return cls(
             token=data["telegram-bot"]["token"],
             owner_tg_id=data["admin"]["owner_tg_id"],
+            admin_roles=data["admin"]["admin_roles"],
             api_url=data["server"]["api_url"],
             smtp_server=email.get("smtp_server"),
             smtp_port=email.get("smtp_port"),

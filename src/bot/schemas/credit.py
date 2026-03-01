@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, ClassVar
 
 from pydantic import BaseModel
 
@@ -19,6 +19,7 @@ class CreditData(BaseModel):
     items: List[CreditItems]
     ok: bool
 
-class CreditResponse:
+class CreditResponse(BaseModel):
+    path: ClassVar[str] = "credit/get"
     status: str
     data: CreditData

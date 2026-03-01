@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, ClassVar
 
 from pydantic import BaseModel
 
@@ -21,6 +21,7 @@ class ReportData(BaseModel):
     items: List[ReportItems]
     ok: bool
 
-class ReportResponse:
+class ReportResponse(BaseModel):
+    path: ClassVar[str] = "report/get"
     status: str
     data: ReportData
