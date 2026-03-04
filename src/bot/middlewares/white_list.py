@@ -4,6 +4,7 @@ from aiogram import BaseMiddleware
 
 from src.bot.schemas import UserResponse, APIError
 from src.bot.tools.api_client import api_client
+from src.bot.config import config
 
 class WhiteList(BaseMiddleware):
 

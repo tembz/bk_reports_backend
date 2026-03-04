@@ -2,17 +2,20 @@ import logging
 
 from aiogram.handlers import ErrorHandler
 
+from src.bot.tools.emojis import Emojis
+
 logger = logging.getLogger(__name__)
 
 class APIErrorHandler(ErrorHandler):
 
     async def handle(self):
         upd = self.event.update
-        text = '<tg-emoji emoji-id="5471921818392600919">😭</tg-emoji> Произошла ошибка при запросе к API, попробуйте позже.'
+        text = f'{Emojis.cry} Произошла ошибка при запросе к API, попробуйте позже.'
 
         logger.error(
-            "API request failed. Error: %s",
-            self.event.exception
+            "API request failed. Error: %s (details %s)",
+            self.event.exception,
+            self.event.exception.details or "no details"
         )
 
         if upd.message:

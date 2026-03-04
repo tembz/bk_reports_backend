@@ -2,13 +2,15 @@ import logging
 
 from aiogram.handlers import ErrorHandler
 
+from src.bot.tools.emojis import Emojis
+
 logger = logging.getLogger(__name__)
 
 class AnyErrorHandler(ErrorHandler):
 
     async def handle(self):
         upd = self.event.update
-        text = '<tg-emoji emoji-id="5471921818392600919">😭</tg-emoji> Произошла неизвестная ошибка, попробуйте позже.'
+        text = f'{Emojis.cry} Произошла неизвестная ошибка, попробуйте позже.'
 
         logger.error(
             "Unhandled error: %s",

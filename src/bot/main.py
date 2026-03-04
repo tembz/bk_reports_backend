@@ -12,7 +12,7 @@ from src.bot.middlewares import middlewares, exc_handlers
 from src.bot.tools.bot_init import TGBot
 
 logging.basicConfig(
-    level=logging.WARNING,
+    level=logging.INFO,
     format="%(asctime)s | %(levelname)s | %(name)s - %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S"
 )
@@ -26,8 +26,8 @@ async def on_shutdown():
 async def main():
 
     bot = Bot(config.token, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
-
     dp = TGBot(middlewares, routers, exc_handlers, on_startup, on_shutdown).init()
+
     await dp.start_polling(bot)    
 
 asyncio.run(main())

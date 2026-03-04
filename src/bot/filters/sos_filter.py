@@ -3,6 +3,8 @@ from datetime import datetime
 from aiogram.filters import Filter
 from aiogram.types import Message
 
+from src.bot.tools.emojis import Emojis
+
 class SosTimeFilter(Filter):
 
     async def __call__(self, m: Message):
@@ -11,7 +13,8 @@ class SosTimeFilter(Filter):
             try:
                 datetime.strptime(time, "%M:%S")
             except:
-                await m.answer("Указан неверный формат. Пожалуйста, пришли мне SOS в формате:\n"
-                "<blockquote><b>MM:СС, MM:СС</b></blockquote>")
+                await m.answer(
+                    f'{Emojis.no} Указан неверный формат. Пожалуйста, пришли мне SOS в формате:\n'
+                    '<blockquote><b>MM:СС, MM:СС</b></blockquote>')
                 return False
         return True

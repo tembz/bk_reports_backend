@@ -11,4 +11,5 @@ class ErrorResponse(BaseModel):
 class APIError(Exception):
     def __init__(self, response: ErrorResponse):
         self.response = response
+        self.details = response.details
         super().__init__(response.error)

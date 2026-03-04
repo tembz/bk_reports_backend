@@ -19,7 +19,7 @@ smtp_server = "smtp.example.com"
 smtp_port = 587
 email_user = "you_mail@example.com"
 email_password = "supersecretpassword"
-to_email = "bk-0@burgerkingrus.ru"
+to_email = "mail@domain.com"
 
 [server]
-api_url = "https://domain.com/api"
+api_url = "https://domain.com/api/"
