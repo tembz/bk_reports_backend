@@ -23,4 +23,4 @@ to_email = "mail@domain.com"
 
 [server]
 api_url = "https://domain.com/api/"
-secret_key = "secrets.token_hex(32)"
+secret_key = "замени-на-вывод-команды: python -c \"import secrets; print(secrets.token_hex(32))\""

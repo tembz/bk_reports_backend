@@ -1,7 +1,7 @@
-from typing import Optional
+from typing import Optional, Literal
 from datetime import datetime, timedelta
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, Query
 from fastapi.encoders import jsonable_encoder
 
 from src.api.database.methods.report import get_db_reports, check_report, add_new_report
@@ -13,7 +13,7 @@ from src.api.tools.schemas import NewReport
 report_handler = APIRouter(prefix="/api/report")
 
 @report_handler.get("/get")
-async def get_reports(limit: int = 30, offset: int = 0, date: Optional[str] = None, report_type: Optional[str] = None):
+async def get_reports(limit: int = Query(default=30, ge=1, le=100), offset: int = Query(default=0, ge=0), date: Optional[str] = None, report_type: Optional[Literal["day", "night"]] = None):
     report_items = []
     reports = await get_db_reports(offset, limit, date, report_type)
 

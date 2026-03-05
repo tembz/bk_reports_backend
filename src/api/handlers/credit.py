@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 from fastapi.encoders import jsonable_encoder
 
 from src.api.database.methods.credit import get_db_credits, update_credit_status, add_new_credit
@@ -11,7 +11,7 @@ from src.api.tools.schemas import NewCredit
 credit_handler = APIRouter(prefix="/api/credit")
 
 @credit_handler.get("/get")
-async def get_credits(limit: int = 30, offset: int = 0):
+async def get_credits(limit: int = Query(default=30, ge=1, le=100), offset: int = Query(default=0, ge=0)):
     credit_result = await get_db_credits(offset, limit)
     credit_list = []
 

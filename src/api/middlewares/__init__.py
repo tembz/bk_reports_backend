@@ -1,5 +1,6 @@
 from .auth import AuthMiddleware
 from .rate_limit import RateLimitMiddleware
+from .file_size import FileSizeMiddleware
 from .exc_handlers import (
     auth_error_handler,
     token_required_handler,
@@ -18,4 +19,4 @@ excs = [[AuthError, auth_error_handler],
         [Exception, internal_error_handler],
         [RequestValidationError, request_validation_handler]]
 
-middlewares = [RateLimitMiddleware, AuthMiddleware,]
+middlewares = [RateLimitMiddleware, AuthMiddleware, FileSizeMiddleware]
