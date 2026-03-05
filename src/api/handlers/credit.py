@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from fastapi import APIRouter, Depends
+from fastapi.encoders import jsonable_encoder
 
 from src.api.database.methods.credit import get_db_credits, update_credit_status, add_new_credit
 from src.api.tools.bot import send_credit_message_to_chat
@@ -23,7 +24,7 @@ async def get_credits(limit: int = 30, offset: int = 0):
 
         credit_list.append(credit_dict)
 
-    return HTTPSuccess({"items": credit_list})
+    return HTTPSuccess(jsonable_encoder({"items": credit_list}))
 
 @credit_handler.get("/toggle")
 async def toggle_credit_status(credit_id: int):

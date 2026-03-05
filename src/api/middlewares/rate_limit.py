@@ -1,0 +1,29 @@
+from cachetools import TTLCache
+
+from fastapi import Request
+from starlette.middleware.base import BaseHTTPMiddleware
+
+from src.api.exceptions import RateLimit
+from src.api.tools.responses import HTTPError
+
+class RateLimitMiddleware(BaseHTTPMiddleware):
+
+    def __init__(self, app, dispatch = None):
+        super().__init__(app)
+        self.cache = TTLCache(maxsize=10000, ttl=60)
+
+    async def dispatch(self, request, call_next):
+        try:
+            user_ip = request.client.host
+            self.cache[user_ip] = self.cache.get(user_ip, 0) + 1
+            count = self.cache[user_ip]
+
+            if request.url.path == "/auth/createToken":
+                if count > 5:
+                    raise RateLimit
+            elif count > 20:
+                raise RateLimit
+
+            return await call_next(request)
+        except RateLimit:
+            return HTTPError("too many requests", 429)

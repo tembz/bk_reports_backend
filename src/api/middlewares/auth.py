@@ -1,5 +1,4 @@
 from fastapi import Request
-from fastapi.responses import JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware
 
 from aiogram.utils.web_app import safe_parse_webapp_init_data
@@ -22,10 +21,10 @@ class AuthMiddleware(BaseHTTPMiddleware):
             init_data_result = await self.check_init_data(request)
             if init_data_result:
                 check_user = await get_user(init_data_result)
-                if check_user.role not in config.admin_roles:
-                    raise AccessDenied
                 if not check_user:
                     raise AuthError
+                if check_user.role not in config.admin_roles:
+                    raise AccessDenied
                 request.state.admin_id = init_data_result
                 return await call_next(request)
             

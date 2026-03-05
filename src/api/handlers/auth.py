@@ -1,6 +1,5 @@
-import random
 import time
-from secrets import token_hex
+from secrets import token_hex, randbelow
 
 from fastapi import APIRouter, Request
 
@@ -36,7 +35,7 @@ async def create_token(request: Request):
 async def create_code(request: Request):
 
     user_id = request.state.admin_id
-    code = random.randint(1111, 9999)
+    code = randbelow(9000) + 1000
     req = await set_code(user_id, code)
 
     if not req:

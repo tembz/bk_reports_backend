@@ -15,6 +15,7 @@ class Config:
     admin_roles: list[str]
     admin_chat_id: int
     credit_chat_id: int
+    secret_key: str
     bot: Optional[Bot] = None
 
     @classmethod
@@ -32,6 +33,7 @@ class Config:
             admin_roles=data["admin"]["admin_roles"],
             admin_chat_id=data["admin"]["admin_chat_id"],
             credit_chat_id=data["admin"]["credit_chat_id"],
+            secret_key=data["server"]["secret_key"],
             bot=Bot(token=data["telegram-bot"]["token"])
         )
 

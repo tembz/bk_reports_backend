@@ -45,4 +45,4 @@ async def delete_code(code: int) -> None:
             delete(Token)
             .where(Token.code == code)
         )
-        await session.execute()
+        await session.commit()

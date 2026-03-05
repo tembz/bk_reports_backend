@@ -8,6 +8,7 @@ class Config:
     owner_tg_id: int
     admin_roles: list[str]
     api_url: str
+    secret_key: str
     smtp_server: Optional[str] = None
     smtp_port: Optional[int] = None
     email_user: Optional[str] = None
@@ -26,6 +27,7 @@ class Config:
             owner_tg_id=data["admin"]["owner_tg_id"],
             admin_roles=data["admin"]["admin_roles"],
             api_url=data["server"]["api_url"],
+            secret_key=data["server"]["secret_key"],
             smtp_server=email.get("smtp_server"),
             smtp_port=email.get("smtp_port"),
             email_user=email.get("email_user"),

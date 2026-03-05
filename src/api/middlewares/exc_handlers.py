@@ -1,5 +1,6 @@
 from fastapi import Request
 from fastapi.responses import JSONResponse
+from fastapi.exceptions import RequestValidationError
 
 from pydantic import ValidationError
 
@@ -34,6 +35,14 @@ async def validation_error_handler(request: Request, exc: ValidationError):
                 error_name="validation error",
                 code=422,
             )
+
+async def request_validation_handler(request: Request, exc: RequestValidationError):
+    errors = exc.errors()
+    return HTTPError(
+        error_name="invalid query params",
+        code=422,
+        error_data=[{"param": e["loc"][-1], "msg": e["msg"]} for e in errors]
+    )
 
 async def internal_error_handler(request: Request, exc: Exception):
     return HTTPError("internal server error", 500)

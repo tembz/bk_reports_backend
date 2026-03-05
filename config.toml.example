@@ -23,3 +23,4 @@ to_email = "mail@domain.com"
 
 [server]
 api_url = "https://domain.com/api/"
+secret_key = "secrets.token_hex(32)"

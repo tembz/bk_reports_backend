@@ -11,3 +11,7 @@ class TokenOrInitDataRequired(HTTPException):
 class AccessDenied(HTTPException):
     def __init__(self):
         super().__init__(status_code=403)
+
+class RateLimit(HTTPException):
+    def __init__(self):
+        super().__init__(status_code=429)
