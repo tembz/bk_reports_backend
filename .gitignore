@@ -212,3 +212,6 @@ config.toml
 
 #Alembic
 alembic.ini
+
+#extensions
+.VSCodeCounter

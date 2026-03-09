@@ -34,7 +34,6 @@ python3.11 -m pip install poetry
 
 poetry shell
 poetry install
-
 pm2 start
 ```
 
