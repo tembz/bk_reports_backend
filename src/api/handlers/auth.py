@@ -3,7 +3,7 @@ from secrets import token_hex, randbelow
 
 from fastapi import APIRouter, Request
 
-from src.api.database.methods.token import get_user_id_by_code, set_token, set_code, delete_code
+from src.api.database.methods.token import get_user_id_by_code, set_token, set_code, delete_code, get_token_by_user_id
 from src.api.tools.responses import *
 
 auth_handler = APIRouter()
@@ -35,10 +35,15 @@ async def create_token(request: Request):
 async def create_code(request: Request):
 
     user_id = request.state.admin_id
+    token = await get_token_by_user_id(user_id)
+    if token:
+        return HTTPError("session already exists", 409)
+    
     code = randbelow(9000) + 1000
     req = await set_code(user_id, code)
 
     if not req:
         return HTTPError("active code already exists", 409)
+
 
     return HTTPSuccess({"code": code})

@@ -8,6 +8,6 @@ class UserData(BaseModel):
     role: str
 
 class UserResponse(BaseModel):
-    path: ClassVar[str] = "user/get"
+    path: ClassVar[str] = "api/user/get"
     status: str
     data: UserData

@@ -25,7 +25,7 @@ async def validation_error_handler(request: Request, exc: ValidationError):
     errors = exc.errors()
 
     if errors[0]["type"] == "literal_error":
-        HTTPError(
+        return HTTPError(
             error_name="invalid type",
             code=422,
             error_data={"param": errors[0]["loc"][0], "available": errors[0]["ctx"]["expected"]}
@@ -38,6 +38,12 @@ async def validation_error_handler(request: Request, exc: ValidationError):
 
 async def request_validation_handler(request: Request, exc: RequestValidationError):
     errors = exc.errors()
+    if errors[0]["type"] == "literal_error":
+        return HTTPError(
+            error_name="invalid type",
+            code=422,
+            error_data={"param": errors[0]["loc"][0], "available": errors[0]["ctx"]["expected"]}
+        )
     return HTTPError(
         error_name="invalid query params",
         code=422,

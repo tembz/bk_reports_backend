@@ -20,6 +20,6 @@ class CreditData(BaseModel):
     ok: bool
 
 class CreditResponse(BaseModel):
-    path: ClassVar[str] = "credit/get"
+    path: ClassVar[str] = "api/credit/get"
     status: str
     data: CreditData

@@ -1,4 +1,5 @@
 import os
+import logging
 import tempfile
 from datetime import datetime
 from typing import List
@@ -9,6 +10,8 @@ from aiogram.enums import ParseMode
 
 from src.api.config import config
 from src.api.tools.formatting import format_nums, format_seconds
+
+logger = logging.getLogger(__name__)
 
 async def send_photos_to_chat(photos: List[UploadFile]):
     media_group = []
@@ -32,7 +35,7 @@ async def send_photos_to_chat(photos: List[UploadFile]):
         try:
             os.remove(tmp_path)
         except Exception as e:
-            print(f"Ошибка при удалении {tmp_path}: {e}")
+            logger.error("Ошибка при удалении %s: %s", tmp_path, e)
 
 async def send_message_to_chat(data: dict, date: str, manager: str):
     report_type = "День" if data['report_type'] == "day" else "Ночь"
@@ -52,7 +55,6 @@ async def send_message_to_chat(data: dict, date: str, manager: str):
 
 async def send_credit_message_to_chat(data: dict):
     credit_type = "Взяли" if data["credit_type"] == "take" else "Дали"
-    print(data['repayment_date'])
     text = (
         f"<code>🔔 Долг | {data['date'].strftime('%d-%m-%Y')}\n"
         f"- Действие: {credit_type}\n"

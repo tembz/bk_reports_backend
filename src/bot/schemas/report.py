@@ -22,6 +22,6 @@ class ReportData(BaseModel):
     ok: bool
 
 class ReportResponse(BaseModel):
-    path: ClassVar[str] = "report/get"
+    path: ClassVar[str] = "api/report/get"
     status: str
     data: ReportData

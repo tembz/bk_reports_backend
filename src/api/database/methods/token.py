@@ -46,3 +46,12 @@ async def delete_code(code: int) -> None:
             .where(Token.code == code)
         )
         await session.commit()
+
+
+async def get_token_by_user_id(user_id: int) -> Optional[Token]:
+    async with db_session() as session:
+        token = await session.execute(
+            select(Token)
+            .where(Token.user_id == user_id)
+        )
+        return token.scalar_one_or_none()
