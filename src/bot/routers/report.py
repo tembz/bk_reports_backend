@@ -98,7 +98,7 @@ async def set_state_photos(m: Message, state: FSMContext):
     await state.update_data(photos=photos)
 
 
-@report_router.message(StateFilter(ReportState.photos, F.text.lower() == "готово"))
+@report_router.message(StateFilter(ReportState.photos), F.text.lower() == "готово")
 async def done_photos(m: Message, state: FSMContext):
     await m.answer('Сохранил! Отправь комментарии к смене.')
     await state.set_state(ReportState.comment)

@@ -209,3 +209,6 @@ config.toml
 
 # MacOS
 .DS_Store
+
+#Alembic
+alembic.ini
