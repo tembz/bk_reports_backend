@@ -4,8 +4,8 @@ from fastapi.exceptions import RequestValidationError
 
 from pydantic import ValidationError
 
-from src.api.exceptions import *
-from src.api.tools.responses import HTTPError
+from api.exceptions import *
+from api.tools.responses import HTTPError
 
 async def auth_error_handler(request: Request, exc: AuthError):
     return HTTPError("Unauthorized", 401)

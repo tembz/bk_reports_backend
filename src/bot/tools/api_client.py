@@ -5,9 +5,9 @@ from aiogram import Bot
 from pydantic import BaseModel
 from aiohttp import ClientSession, FormData
 
-from src.bot.config import config
-from src.bot.tools.tools import encode
-from src.bot.schemas.error import ErrorResponse, APIError
+from bot.config import config
+from bot.tools.tools import encode
+from bot.schemas.error import ErrorResponse, APIError
 
 
 T = TypeVar("T", bound=BaseModel)

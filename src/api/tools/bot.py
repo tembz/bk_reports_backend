@@ -8,8 +8,8 @@ from fastapi import UploadFile
 from aiogram.types import FSInputFile, InputMediaPhoto
 from aiogram.enums import ParseMode
 
-from src.api.config import config
-from src.api.tools.formatting import format_nums, format_seconds
+from api.config import config
+from api.tools.formatting import format_nums, format_seconds
 
 logger = logging.getLogger(__name__)
 

@@ -3,8 +3,8 @@ from secrets import token_hex, randbelow
 
 from fastapi import APIRouter, Request
 
-from src.api.database.methods.token import get_user_id_by_code, set_token, set_code, delete_code, get_token_by_user_id
-from src.api.tools.responses import *
+from api.database.methods.token import get_user_id_by_code, set_token, set_code, delete_code, get_token_by_user_id
+from api.tools.responses import *
 
 auth_handler = APIRouter()
 

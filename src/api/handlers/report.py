@@ -4,11 +4,11 @@ from datetime import datetime, timedelta
 from fastapi import APIRouter, Request, Query
 from fastapi.encoders import jsonable_encoder
 
-from src.api.database.methods.report import get_db_reports, check_report, add_new_report
-from src.api.database.methods.user import get_user
-from src.api.tools.bot import send_photos_to_chat, send_message_to_chat
-from src.api.tools.responses import *
-from src.api.tools.schemas import NewReport
+from api.database.methods.report import get_db_reports, check_report, add_new_report
+from api.database.methods.user import get_user
+from api.tools.bot import send_photos_to_chat, send_message_to_chat
+from api.tools.responses import *
+from api.tools.schemas import NewReport
 
 report_handler = APIRouter(prefix="/api/report")
 

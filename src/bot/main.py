@@ -5,11 +5,11 @@ from aiogram import Bot
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 
-from src.bot.routers import routers
-from src.bot.config import config
-from src.bot.tools.api_client import api_client
-from src.bot.middlewares import middlewares, exc_handlers
-from src.bot.tools.bot_init import TGBot
+from bot.routers import routers
+from bot.config import config
+from bot.tools.api_client import api_client
+from bot.middlewares import middlewares, exc_handlers
+from bot.tools.bot_init import TGBot
 
 logging.basicConfig(
     level=logging.INFO,

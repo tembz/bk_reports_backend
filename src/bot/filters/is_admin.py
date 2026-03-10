@@ -1,6 +1,6 @@
 from aiogram.filters import BaseFilter
 
-from src.bot.config import config
+from bot.config import config
 
 class IsAdmin(BaseFilter):
 

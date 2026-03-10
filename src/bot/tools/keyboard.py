@@ -1,7 +1,7 @@
 from aiogram.types import KeyboardButton, InlineKeyboardButton
 from aiogram.utils.keyboard import ReplyKeyboardBuilder, InlineKeyboardBuilder
 
-from src.bot.tools.emojis import Emojis
+from bot.tools.emojis import Emojis
 
 def get_start_keyboard(user_type: str):
     kb_buttons = [[KeyboardButton(text="☀️ Дневной отчет")], [KeyboardButton(text="🌙 Ночной отчет")]]

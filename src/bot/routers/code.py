@@ -2,10 +2,10 @@ from aiogram import Router
 from aiogram.filters import Command
 from aiogram.types import Message, CallbackQuery
 
-from src.bot.tools.api_client import api_client
-from src.bot.schemas import CodeResponse, UserResponse, APIError
-from src.bot.tools.keyboard import yes_or_no, get_approve_kb
-from src.bot.config import config
+from bot.tools.api_client import api_client
+from bot.schemas import CodeResponse, UserResponse, APIError
+from bot.tools.keyboard import yes_or_no, get_approve_kb
+from bot.config import config
 
 code = Router()
 

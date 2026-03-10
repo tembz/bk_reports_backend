@@ -3,7 +3,7 @@ from datetime import datetime
 from aiogram.filters import Filter
 from aiogram.types import Message
 
-from src.bot.tools.emojis import Emojis
+from bot.tools.emojis import Emojis
 
 class SosTimeFilter(Filter):
 

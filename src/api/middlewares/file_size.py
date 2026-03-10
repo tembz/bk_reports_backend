@@ -1,7 +1,7 @@
 from fastapi import Request
 from starlette.middleware.base import BaseHTTPMiddleware
 
-from src.api.tools.responses import HTTPError
+from api.tools.responses import HTTPError
 
 class FileSizeMiddleware(BaseHTTPMiddleware):
     def __init__(self, app, dispatch = None):

@@ -2,7 +2,7 @@ import logging
 
 from aiogram.handlers import ErrorHandler
 
-from src.bot.tools.emojis import Emojis
+from bot.tools.emojis import Emojis
 
 logger = logging.getLogger(__name__)
 

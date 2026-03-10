@@ -5,7 +5,7 @@ from .any_error import AnyErrorHandler
 
 from .api_error import APIErrorHandler
 
-from src.bot.schemas import APIError
+from bot.schemas import APIError
 
 middlewares = [WhiteList]
 exc_handlers = [

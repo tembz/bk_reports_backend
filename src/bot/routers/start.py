@@ -2,10 +2,10 @@ from aiogram import Router
 from aiogram.types import Message
 from aiogram.filters import CommandStart
 
-from src.bot.filters import IsAdmin
-from src.bot.tools.keyboard import get_start_keyboard
+from bot.filters import IsAdmin
+from bot.tools.keyboard import get_start_keyboard
 
-from src.bot.tools.emojis import Emojis
+from bot.tools.emojis import Emojis
 
 start_router = Router()
 

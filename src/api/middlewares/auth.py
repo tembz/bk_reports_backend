@@ -3,11 +3,11 @@ from starlette.middleware.base import BaseHTTPMiddleware
 
 from aiogram.utils.web_app import safe_parse_webapp_init_data
 
-from src.api.config import config
-from src.api.exceptions import AuthError, TokenOrInitDataRequired, AccessDenied
-from src.api.database.methods.user import get_user, check_token
-from src.api.tools.responses import HTTPError
-from src.api.tools.tools import decode_secret
+from api.config import config
+from api.exceptions import AuthError, TokenOrInitDataRequired, AccessDenied
+from api.database.methods.user import get_user, check_token
+from api.tools.responses import HTTPError
+from api.tools.tools import decode_secret
 
 class AuthMiddleware(BaseHTTPMiddleware):
 

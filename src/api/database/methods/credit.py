@@ -2,8 +2,8 @@ from datetime import datetime
 
 from sqlalchemy import select, update, not_
 
-from src.api.database.models.credit import Credit
-from src.api.database.engine import db_session
+from api.database.models.credit import Credit
+from api.database.engine import db_session
 
 async def get_db_credits(offset: int, limit: int):
     stmt = (

@@ -1,8 +1,8 @@
 from typing import Optional
 from sqlalchemy import select
 
-from src.api.database.engine import db_session
-from src.api.database.models import User, Token
+from api.database.engine import db_session
+from api.database.models import User, Token
 
 
 async def get_user(user_id: int) -> Optional[User]:

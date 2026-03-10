@@ -5,13 +5,13 @@ from aiogram.types import Message
 from aiogram.filters import StateFilter
 from aiogram.fsm.context import FSMContext
 
-from src.bot.states import ReportState
-from src.bot.filters import IsAdmin, SosTimeFilter
-from src.bot.tools.api_client import api_client
-from src.bot.tools.keyboard import cancel_keyboard, get_start_keyboard
-from src.bot.schemas import ReportResponse, APIOK
+from bot.states import ReportState
+from bot.filters import IsAdmin, SosTimeFilter
+from bot.tools.api_client import api_client
+from bot.tools.keyboard import cancel_keyboard, get_start_keyboard
+from bot.schemas import ReportResponse, APIOK
 
-from src.bot.tools.emojis import Emojis
+from bot.tools.emojis import Emojis
 
 report_router = Router()
 

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request
 
-from src.api.database.methods.user import get_user
-from src.api.tools.responses import HTTPSuccess, HTTPError
+from api.database.methods.user import get_user
+from api.tools.responses import HTTPSuccess, HTTPError
 
 
 user_handler = APIRouter(prefix="/api/user")

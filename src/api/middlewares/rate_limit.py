@@ -3,8 +3,8 @@ from cachetools import TTLCache
 from fastapi import Request
 from starlette.middleware.base import BaseHTTPMiddleware
 
-from src.api.exceptions import RateLimit
-from src.api.tools.responses import HTTPError
+from api.exceptions import RateLimit
+from api.tools.responses import HTTPError
 
 class RateLimitMiddleware(BaseHTTPMiddleware):
 

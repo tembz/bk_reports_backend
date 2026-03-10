@@ -3,12 +3,12 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
-from src.api.tools.app_init import App
+from api.tools.app_init import App
 
-from src.api.handlers import routers
-from src.api.middlewares import excs, middlewares
+from api.handlers import routers
+from api.middlewares import excs, middlewares
 
-from src.api.config import config
+from api.config import config
 
 logging.basicConfig(
     level=logging.INFO,
