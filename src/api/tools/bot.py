@@ -54,7 +54,7 @@ async def send_message_to_chat(data: dict, date: str, manager: str):
     await config.bot.send_message(chat_id=config.admin_chat_id, parse_mode=ParseMode.HTML, text=text)
 
 async def send_credit_message_to_chat(data: dict):
-    credit_type = "Взяли" if data["credit_type"] == "take" else "Дали"
+    credit_type = "Взяли" if data["credit_type"] in ("take", "взяли") else "Дали"
     text = (
         f"<code>🔔 Долг | {data['date'].strftime('%d-%m-%Y')}\n"
         f"- Действие: {credit_type}\n"

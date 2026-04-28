@@ -20,5 +20,5 @@ class NewCredit(BaseModel):
     measurement_unit: str
     repayment_date: datetime = datetime.min
     is_transfer: bool
-    credit_type: Literal["give", "take"]
+    credit_type: Literal["give", "take", "дали", "взяли"]
     count: float
