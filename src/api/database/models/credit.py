@@ -19,7 +19,12 @@ class Credit(Base):
         primary_key=True,
         server_default=text("uuid_generate_v4()")  # uuid-ossp
     )
-    id: Mapped[int] = mapped_column(BigInteger, autoincrement=True)              
+    id: Mapped[int] = mapped_column(
+        BigInteger,
+        autoincrement=True,
+        nullable=False,
+        server_default=text("nextval('credits_id_seq'::regclass)")
+    )
     date: Mapped[datetime.date] = mapped_column(Date, nullable=False, default=datetime.today)
     restaurant: Mapped[int] = mapped_column(BigInteger, nullable=False)
     what_take: Mapped[str] = mapped_column(String, nullable=False)
