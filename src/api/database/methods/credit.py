@@ -37,7 +37,7 @@ async def add_new_credit(data: dict):
         restaurant=data["restaurant"],
         what_take=data["what_take"],
         measurement_unit=data["measurement_unit"],
-        repayment_date=datetime.fromisoformat(data["repayment_date"]) if data["repayment_date"] else datetime.min,
+        repayment_date=datetime.fromisoformat(data["repayment_date"]) if data["repayment_date"] else None,
         is_transfer=data["is_transfer"],
         credit_type=data["credit_type"],
         count=data["count"],

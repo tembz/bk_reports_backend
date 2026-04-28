@@ -27,7 +27,7 @@ async def main():
 
     bot = Bot(config.token, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
     dp = TGBot(middlewares, routers, exc_handlers, on_startup, on_shutdown).init()
-
+    
     await dp.start_polling(bot)    
 
 asyncio.run(main())

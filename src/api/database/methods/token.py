@@ -55,3 +55,11 @@ async def get_token_by_user_id(user_id: int) -> Optional[Token]:
             .where(Token.user_id == user_id)
         )
         return token.scalar_one_or_none()
+    
+async def delete_token(user_id: int) -> None:
+    async with db_session() as session:
+        await session.execute(
+            delete(Token)
+            .where(Token.user_id == user_id)
+        )
+        await session.commit()

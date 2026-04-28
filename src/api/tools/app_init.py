@@ -13,7 +13,7 @@ class App:
                  exc_handlers: list[ExcHandler],
                  lifespan: Optional[Callable] = None):
         
-        self.app = FastAPI(lifespan=lifespan)
+        self.app = FastAPI(lifespan=lifespan, docs_url=None, redoc_url=None)
         self.middlewares = middlewares
         self.routers = routers
         self.exc_handlers = exc_handlers

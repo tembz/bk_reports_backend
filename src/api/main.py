@@ -9,6 +9,7 @@ from api.handlers import routers
 from api.middlewares import excs, middlewares
 
 from api.config import config
+from api.database.methods.user import create_owner_if_not_exists
 
 logging.basicConfig(
     level=logging.INFO,
@@ -18,8 +19,8 @@ logging.basicConfig(
 
 @asynccontextmanager
 async def main(app: FastAPI):
+    await create_owner_if_not_exists()
     yield
-
     await config.bot.session.close()
 
 

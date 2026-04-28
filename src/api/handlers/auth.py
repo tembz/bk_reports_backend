@@ -3,8 +3,10 @@ from secrets import token_hex, randbelow
 
 from fastapi import APIRouter, Request
 
-from api.database.methods.token import get_user_id_by_code, set_token, set_code, delete_code, get_token_by_user_id
+from api.database.methods.token import *
 from api.tools.responses import *
+from api.config import config
+from api.tools.bot import send_delete_session_message
 
 auth_handler = APIRouter()
 
@@ -47,3 +49,24 @@ async def create_code(request: Request):
 
 
     return HTTPSuccess({"code": code})
+
+@auth_handler.post("/auth/deleteSession")
+async def delete_session(request: Request):
+    form = await request.form()
+
+    sender_id = request.state.admin_id
+    session_user_id = int(form.get("session_user_id"))
+
+    if sender_id != session_user_id:
+        if sender_id != config.owner_tg_id:
+            return HTTPError("access denied", 403)
+        message_type = "owner"
+    else:
+        message_type = "user"
+
+    await delete_token(session_user_id)
+    await send_delete_session_message(message_type, user_id=session_user_id)
+    return HTTPSuccess()
+    
+
+

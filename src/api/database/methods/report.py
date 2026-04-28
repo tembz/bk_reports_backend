@@ -1,7 +1,7 @@
 import time
 from datetime import datetime
 
-from sqlalchemy import text, select
+from sqlalchemy import text, select, func
 
 from api.database.models import Report, User
 from api.database.engine import db_session

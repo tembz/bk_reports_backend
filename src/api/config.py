@@ -13,6 +13,7 @@ class Config:
     db_password: str
     db_name: str
     admin_roles: list[str]
+    owner_tg_id: int
     admin_chat_id: int
     credit_chat_id: int
     secret_key: str
@@ -31,6 +32,7 @@ class Config:
             db_password=data["database"]["password"],
             db_name=data["database"]["dbname"],
             admin_roles=data["admin"]["admin_roles"],
+            owner_tg_id=data["admin"]["owner_tg_id"],
             admin_chat_id=data["admin"]["admin_chat_id"],
             credit_chat_id=data["admin"]["credit_chat_id"],
             secret_key=data["server"]["secret_key"],

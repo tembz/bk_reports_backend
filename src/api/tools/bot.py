@@ -2,7 +2,7 @@ import os
 import logging
 import tempfile
 from datetime import datetime
-from typing import List
+from typing import List, Literal
 
 from fastapi import UploadFile
 from aiogram.types import FSInputFile, InputMediaPhoto
@@ -71,3 +71,10 @@ async def send_credit_message_to_chat(data: dict):
     )
 
     await config.bot.send_message(chat_id=config.credit_chat_id, parse_mode=ParseMode.HTML, text=text)
+
+async def send_delete_session_message(type: Literal["owner", "user"], user_id: int):
+    if type == "owner":
+        text = "Ваша сессия была удалена создателем, доступ к приложению закрыт."
+    elif type == "user":
+        text = "Ваша сессия была удалена, доступ к приложению закрыт."
+    await config.bot.send_message(chat_id=user_id, parse_mode=ParseMode.HTML, text=text)
