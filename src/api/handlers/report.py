@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 from fastapi import APIRouter, Request, Query
 from fastapi.encoders import jsonable_encoder
 
-from api.database.methods.report import get_db_reports, check_report, add_new_report, get_db_monthly_averages
+from api.database.methods.report import get_db_reports, check_report, add_new_report
 from api.database.methods.user import get_user
 from api.tools.bot import send_photos_to_chat, send_message_to_chat
 from api.tools.responses import *
@@ -117,14 +117,4 @@ async def create_new_report(request: Request):
         current_date.date(),
     )
 
-    return HTTPSuccess()
-
-@report_handler.get("/monthly-averages")
-async def get_monthly_averages(limit: int = Query(default=30, ge=1, le=100), offset: int = Query(default=0, ge=0), admin_id: Optional[int] = None):
-    if admin_id is not None:
-        manager = await get_user(admin_id)
-        if not manager:
-            return HTTPError("admin not found", 404)
-
-    reports = await get_db_monthly_averages(offset, limit, admin_id)
     return HTTPSuccess()
