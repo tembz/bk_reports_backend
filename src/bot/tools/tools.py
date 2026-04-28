@@ -21,7 +21,7 @@ def format_nums(num: int):
 
 def format_inline_text(code, time, money, itph, sos, sos_d, ge):
     text = f"<code>📊 {time} (#{code})\n" +\
-            f"⨯ ТО: {format_nums(int(money))}\n" +\
+            f"⨯ ТО: {format_nums(int(money))} ₽\n" +\
             f"⨯ ITPH: {itph}\n" +\
             f"⨯ SOS: {sos} / {sos_d}\n" +\
             f"⨯ ГО: {ge}\n</code>"

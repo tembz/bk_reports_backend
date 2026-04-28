@@ -21,4 +21,4 @@ class NewCredit(BaseModel):
     repayment_date: datetime = datetime.min
     is_transfer: bool
     credit_type: Literal["give", "take"]
-    count: int
+    count: float

@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Query, Request
 from fastapi.encoders import jsonable_encoder
 
 from api.database.methods.credit import get_db_credits, update_credit_status, add_new_credit
@@ -32,7 +32,15 @@ async def toggle_credit_status(credit_id: int):
     return HTTPSuccess()
 
 @credit_handler.post("/create")
-async def create_new_credit(credit: NewCredit = Depends()):
+async def create_new_credit(request: Request):
+    content_type = request.headers.get("content-type", "")
+
+    if "multipart/form-data" in content_type:
+        source = await request.form()
+        credit = NewCredit.model_validate(dict(source))
+    else:
+        source = await request.json()
+        credit = NewCredit.model_validate(source)
 
     data = credit.model_dump()
     data["date"] = datetime.today()
