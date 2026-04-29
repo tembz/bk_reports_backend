@@ -20,10 +20,12 @@ def format_nums(num: int):
     return f"{num:,}".replace(",", ".")
 
 def format_inline_text(code, time, money, itph, sos, sos_d, ge):
-    text = f"<code>📊 {time} (#{code})\n" +\
-            f"⨯ ТО: {format_nums(int(money))} ₽\n" +\
-            f"⨯ ITPH: {itph}\n" +\
-            f"⨯ SOS: {sos} / {sos_d}\n" +\
-            f"⨯ ГО: {ge}\n</code>"
+    text = f"📌 <b>{code}</b>\n" +\
+            f"⏰ <b>{time}</b>\n" +\
+            f"╔ ТО - <b>{format_nums(int(money))}</b> ₽\n" +\
+            f"╠ ITPH - <b>{itph}</b>\n" +\
+            f"╠ SOS - <b>{sos}</b>\n" +\
+            f"╠ SOS дост - <b>{sos_d}</b>\n" +\
+            f"╚ ГО - <b>{ge}</b>"
     return text
 
