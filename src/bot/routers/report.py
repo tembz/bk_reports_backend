@@ -108,7 +108,7 @@ async def done_photos(m: Message, state: FSMContext):
 async def final_create_report(m: Message, state: FSMContext, role: str):
     data = await state.get_data()
 
-    await api_client.post(APIOK, user_id=m.from_user.id, path="report/create", bot=m.bot, comments=m.text, **data)
+    await api_client.post(APIOK, user_id=m.from_user.id, path="api/report/create", bot=m.bot, comments=m.text, **data)
     await m.answer(f'{Emojis.success} Успешно!', reply_markup=get_start_keyboard(role))
     await state.clear()
     
