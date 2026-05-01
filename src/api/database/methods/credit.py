@@ -1,9 +1,8 @@
-from datetime import datetime
-
 from sqlalchemy import select, update, not_
 
 from api.database.models.credit import Credit
 from api.database.engine import db_session
+from api.tools.formatting import parse_date
 
 async def get_db_credits(offset: int, limit: int):
     stmt = (
@@ -33,11 +32,11 @@ async def update_credit_status(credit_id: int):
         
 async def add_new_credit(data: dict):
     credit = Credit(
-        date=data['date'].date(),
+        date=parse_date(data["date"]),
         restaurant=data["restaurant"],
         what_take=data["what_take"],
         measurement_unit=data["measurement_unit"],
-        repayment_date=datetime.fromisoformat(data["repayment_date"]) if data["repayment_date"] else None,
+        repayment_date=parse_date(data["repayment_date"]),
         is_transfer=data["is_transfer"],
         credit_type=data["credit_type"],
         count=data["count"],

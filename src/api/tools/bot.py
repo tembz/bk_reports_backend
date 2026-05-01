@@ -1,7 +1,6 @@
 import os
 import logging
 import tempfile
-from datetime import datetime
 from typing import List, Literal
 
 from fastapi import UploadFile
@@ -9,7 +8,7 @@ from aiogram.types import FSInputFile, InputMediaPhoto
 from aiogram.enums import ParseMode
 
 from api.config import config
-from api.tools.formatting import format_nums, format_seconds
+from api.tools.formatting import format_date, format_nums, format_seconds
 
 logger = logging.getLogger(__name__)
 
@@ -56,14 +55,14 @@ async def send_message_to_chat(data: dict, date: str, manager: str):
 async def send_credit_message_to_chat(data: dict):
     credit_type = "Взяли" if data["credit_type"] in ("take", "взяли") else "Дали"
     text = (
-        f"<code>🔔 Долг | {data['date'].strftime('%d-%m-%Y')}\n"
+        f"<code>🔔 Долг | {format_date(data['date'])}\n"
         f"- Действие: {credit_type}\n"
         f"- Ресторан: {data['restaurant']}\n"
         f"- Предмет: {data['what_take']}\n"
         f"- Ед. Измерения: {data['measurement_unit']}\n"
         f"- Количество: {data['count']}\n"
         + (
-            f"- Дата возвращения: {datetime.fromisoformat(data['repayment_date']).strftime('%d-%m-%Y')}\n"
+            f"- Дата возвращения: {format_date(data['repayment_date'])}\n"
             if not data['is_transfer']
             else ""
         )
