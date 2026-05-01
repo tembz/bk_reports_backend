@@ -19,7 +19,7 @@ async def get_credits(limit: int = Query(default=30, ge=1, le=100), offset: int 
         credit_dict = credit.__dict__.copy()
         credit_dict.pop("_sa_instance_state", None)
         credit_dict.update({
-            "credit_type": "взяли" if credit.credit_type == "take" else "дали",
+            "credit_type": "взяли" if credit.credit_type in ("take", "взяли") else "дали",
         })
 
         credit_list.append(credit_dict)
