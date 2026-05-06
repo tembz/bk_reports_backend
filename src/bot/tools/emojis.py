@@ -7,3 +7,5 @@ class Emojis:
     sassy = '<tg-emoji emoji-id="5471975131821648150">🙂‍↔️</tg-emoji>' #отчет уже существует
     rage = '<tg-emoji emoji-id="5472106059604697914">🙂‍↔️</tg-emoji>' #функционал недоступен
     go_away_id = '5472364861449055852' #прогоняющий (удалить сессию)
+    to_mail = '<tg-emoji emoji-id="5472033358693280429">💻</tg-emoji>' #при начале отправки на почту 
+    hero = '<tg-emoji emoji-id="5472236545006117929">🚀</tg-emoji>' 

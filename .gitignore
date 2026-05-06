@@ -215,3 +215,5 @@ alembic.ini
 
 #extensions
 .VSCodeCounter
+
+downloads/

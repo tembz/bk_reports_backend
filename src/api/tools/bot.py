@@ -50,7 +50,13 @@ async def send_message_to_chat(data: dict, date: str, manager: str):
     if data['comments']:
         text = text + f"<pre><code class='language-Комментарии'>{data['comments']}</code></pre>"
 
-    await config.bot.send_message(chat_id=config.admin_chat_id, parse_mode=ParseMode.HTML, text=text)
+    message = await config.bot.send_message(chat_id=config.admin_chat_id, parse_mode=ParseMode.HTML, text=text)
+    logger.warning(
+        "report message sent | message_id=%s chat_id=%s",
+        message.message_id,
+        message.chat.id,
+    )
+    
 
 async def send_credit_message_to_chat(data: dict):
     credit_type = "Взяли" if data["credit_type"] in ("take", "взяли") else "Дали"
@@ -69,7 +75,12 @@ async def send_credit_message_to_chat(data: dict):
         + f"- Трансфер: {'Да' if data['is_transfer'] else 'Нет'}</code>"
     )
 
-    await config.bot.send_message(chat_id=config.credit_chat_id, parse_mode=ParseMode.HTML, text=text)
+    message = await config.bot.send_message(chat_id=config.credit_chat_id, parse_mode=ParseMode.HTML, text=text)
+    logger.warning(
+        "credit message sent | message_id=%s chat_id=%s",
+        message.message_id,
+        message.chat.id,
+    )
 
 async def send_delete_session_message(type: Literal["owner", "user"], user_id: int):
     if type == "owner":

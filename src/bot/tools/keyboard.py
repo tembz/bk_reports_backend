@@ -4,13 +4,18 @@ from aiogram.utils.keyboard import ReplyKeyboardBuilder, InlineKeyboardBuilder
 from bot.tools.emojis import Emojis
 
 def get_start_keyboard(user_type: str):
-    kb_buttons = [[KeyboardButton(text="☀️ Дневной отчет")], [KeyboardButton(text="🌙 Ночной отчет")]]
+    kb_buttons = [[KeyboardButton(text="☀️ Дневной отчет")], [KeyboardButton(text="🌙 Ночной отчет")], [KeyboardButton(text="📩 На почту")]]
     if user_type in ("director", "owner"):
         kb_buttons.append([KeyboardButton(text="📑 Сводная")])
     return ReplyKeyboardBuilder(kb_buttons).as_markup(resize_keyboard=True, one_time=True)
 
-def cancel_keyboard():
-    return ReplyKeyboardBuilder([[KeyboardButton(text="Отменить.")]]).as_markup(resize_keyboard=True, one_time=True)
+def cancel_keyboard(send_email_kb: bool = False):
+    kb_buttons = []
+    if send_email_kb:
+        kb_buttons.append([KeyboardButton(text="✉️ Готово")])
+    kb_buttons.append([KeyboardButton(text="Отменить.")])
+
+    return ReplyKeyboardBuilder(kb_buttons).as_markup(resize_keyboard=True, one_time=True)
 
 def get_approve_kb(user_id: int):
     kb_buttons = [[InlineKeyboardButton(text=f"Удалить сессию", callback_data=f"delete:session:{user_id}", icon_custom_emoji_id=Emojis.go_away_id)]]
