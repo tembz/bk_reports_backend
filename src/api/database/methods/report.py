@@ -52,7 +52,8 @@ async def check_report(date: str, report_type: str):
 async def search_reports(q: str):
     async with db_session() as session:
         stmt = (
-            select(Report)
+            select(Report, User.short_name)
+            .join(User, User.id == Report.admin_id)
             .where(
                 func.to_tsvector(
                     'simple',
