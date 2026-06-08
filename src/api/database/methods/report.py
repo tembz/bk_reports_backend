@@ -70,4 +70,4 @@ async def search_reports(q: str):
             .limit(30)
         )
         result = await session.execute(stmt)
-        return result.scalars().all()
+        return result.all()
