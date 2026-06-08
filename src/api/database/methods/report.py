@@ -1,7 +1,7 @@
 import time
 from datetime import datetime
 
-from sqlalchemy import text, select, func
+from sqlalchemy import text, select, func, String
 
 from api.database.models import Report, User
 from api.database.engine import db_session
@@ -48,3 +48,25 @@ async def check_report(date: str, report_type: str):
             .where(Report.report_type == report_type, Report.date == date.date())
             )
         return report.scalar_one_or_none()
+    
+async def search_reports(q: str):
+    async with db_session() as session:
+        stmt = (
+            select(Report)
+            .where(
+                func.to_tsvector(
+                    'simple',
+                    func.concat_ws(
+                        ' ',
+                        Report.comments.cast(String),
+                        Report.date.cast(String),
+                        Report.report_type.cast(String),
+                    )
+                ).op("@@")(
+                    func.plainto_tsquery('simple', q)
+                )
+            )
+            .limit(30)
+        )
+        result = await session.execute(stmt)
+        return result.scalars().all()

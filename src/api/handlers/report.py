@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 from fastapi import APIRouter, Request, Query
 from fastapi.encoders import jsonable_encoder
 
-from api.database.methods.report import get_db_reports, check_report, add_new_report
+from api.database.methods.report import get_db_reports, check_report, add_new_report, search_reports
 from api.database.methods.user import get_user
 from api.tools.bot import send_photos_to_chat, send_message_to_chat
 from api.tools.responses import *
@@ -17,9 +17,13 @@ logger = logging.getLogger(__name__)
 report_handler = APIRouter(prefix="/api/report")
 
 @report_handler.get("/get")
-async def get_reports(limit: int = Query(default=30, ge=1, le=100), offset: int = Query(default=0, ge=0), date: Optional[str] = None, report_type: Optional[Literal["day", "night"]] = None):
+async def get_reports(limit: int = Query(default=30, ge=1, le=100), offset: int = Query(default=0, ge=0), date: Optional[str] = None, report_type: Optional[Literal["day", "night"]] = None, q: str | None = Query(default=None)):
     report_items = []
-    reports = await get_db_reports(offset, limit, date, report_type)
+
+    if q not in (None, "", "null"):
+        reports = await search_reports()
+    else:
+        reports = await get_db_reports(offset, limit, date, report_type)
 
     for report, short_name in reports:
         report_dict = report.__dict__.copy()
