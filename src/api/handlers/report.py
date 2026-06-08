@@ -21,7 +21,7 @@ async def get_reports(limit: int = Query(default=30, ge=1, le=100), offset: int 
     report_items = []
 
     if q not in (None, "", "null"):
-        reports = await search_reports()
+        reports = await search_reports(q)
     else:
         reports = await get_db_reports(offset, limit, date, report_type)
 
