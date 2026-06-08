@@ -7,7 +7,7 @@ from aiogram.types import Message
 from aiogram.filters import StateFilter
 from aiogram.fsm.context import FSMContext
 
-from bot.states.send_email import SendEmail
+from bot.states import SendEmail
 from bot.tools.emojis import Emojis
 from bot.tools.tools import send_files_to_email
 from bot.tools.api_client import api_client

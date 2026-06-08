@@ -1,4 +1,4 @@
-from sqlalchemy import select, update, not_
+from sqlalchemy import select, update, not_, func, String
 
 from api.database.models.credit import Credit
 from api.database.engine import db_session
@@ -47,3 +47,25 @@ async def add_new_credit(data: dict):
         session.add(credit)
         await session.commit()
     
+async def search_credits(q: str):
+    async with db_session() as session:
+        stmt = (
+            select(Credit)
+            .where(
+                func.to_tsvector(
+                    'simple',
+                    func.concat_ws(
+                        ' ',
+                        Credit.what_take.cast(String),
+                        Credit.restaurant.cast(String),
+                        Credit.measurement_unit.cast(String),
+                        Credit.repayment_date.cast(String),
+                    )
+                ).op("@@")(
+                    func.plainto_tsquery('simple', q)
+                )
+            )
+            .limit(30)
+        )
+        result = await session.execute(stmt)
+        return result.scalars().all()

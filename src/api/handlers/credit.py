@@ -3,7 +3,7 @@ from datetime import datetime
 from fastapi import APIRouter, Query, Request
 from fastapi.encoders import jsonable_encoder
 
-from api.database.methods.credit import get_db_credits, update_credit_status, add_new_credit
+from api.database.methods.credit import get_db_credits, update_credit_status, add_new_credit, search_credits
 from api.tools.bot import send_credit_message_to_chat
 from api.tools.responses import *
 from api.tools.schemas import NewCredit
@@ -11,8 +11,12 @@ from api.tools.schemas import NewCredit
 credit_handler = APIRouter(prefix="/api/credit")
 
 @credit_handler.get("/get")
-async def get_credits(limit: int = Query(default=30, ge=1, le=100), offset: int = Query(default=0, ge=0)):
-    credit_result = await get_db_credits(offset, limit)
+async def get_credits(limit: int = Query(default=30, ge=1, le=100), offset: int = Query(default=0, ge=0), q: str | None = Query(default=None)):
+    
+    if q not in (None, "", "null"):
+        credit_result = await search_credits(q)
+    else:
+        credit_result = await get_db_credits(offset, limit)
     credit_list = []
 
     for credit in credit_result:

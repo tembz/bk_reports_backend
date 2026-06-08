@@ -10,6 +10,8 @@ from api.middlewares import excs, middlewares
 
 from api.config import config
 from api.database.methods.user import create_owner_if_not_exists
+from api.database.engine import engine
+from api.database.models import base
 
 logging.basicConfig(
     level=logging.INFO,
