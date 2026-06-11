@@ -30,3 +30,9 @@ class NewCredit(BaseModel):
         if value in (None, "", "<null>", "null"):
             return None
         return value
+    
+class NewMedBook(BaseModel):
+    full_name: str
+    inspect_end: datetime | None = None
+    fluorography_end: datetime | None = None
+    reference: bool
