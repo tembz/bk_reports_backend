@@ -6,10 +6,10 @@ from api.database.methods.medbook import add_new_book
 from api.tools.schemas import NewMedBook
 from api.tools.responses import HTTPSuccess
 
-medbook = APIRouter("/api/medbook")
+medbook_handler = APIRouter("/api/medbook")
 logger = logging.getLogger(__name__)
 
-@medbook.post("/create")
+@medbook_handler.post("/create")
 async def create_new_book(request: Request):
     admin_id = request.state.admin_id
     data = NewMedBook.model_validate(request.form())
