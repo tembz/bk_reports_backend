@@ -5,8 +5,9 @@ from sqlalchemy import text, select, func, String
 
 from api.database.models import Report, User
 from api.database.engine import db_session
+from api.database.methods.filters import apply_report_filters
 
-async def get_db_reports(offset: int, limit: int, date: datetime = None, report_type: str = None):
+async def get_db_reports(offset: int, limit: int, date: datetime = None, filters: dict | None = None):
     stmt = (
         select(Report, User.short_name)
         .join(User, User.id == Report.admin_id)
@@ -16,8 +17,8 @@ async def get_db_reports(offset: int, limit: int, date: datetime = None, report_
     )
     if date:
         stmt = stmt.where(Report.date == datetime.strptime(date, "%Y-%m-%d").date())
-    if report_type:
-        stmt = stmt.where(Report.report_type == report_type)
+    if filters:
+        stmt = apply_report_filters(stmt, filters)
 
     async with db_session() as session:
         result = await session.execute(stmt)
@@ -49,7 +50,7 @@ async def check_report(date: str, report_type: str):
             )
         return report.scalar_one_or_none()
     
-async def search_reports(q: str):
+async def search_reports(q: str, filters: dict | None = None):
     async with db_session() as session:
         stmt = (
             select(Report, User.short_name)
@@ -69,5 +70,7 @@ async def search_reports(q: str):
             )
             .limit(30)
         )
+        if filters:
+            stmt = apply_report_filters(stmt, filters)
         result = await session.execute(stmt)
         return result.all()

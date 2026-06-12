@@ -18,14 +18,12 @@ def decode_secret(secret: str) -> Optional[int]:
         return None
 
 def parse_filter(filters: str, type: str) -> Optional[dict]:
-    report_avaiable_field_names = ["day", "night"]
-    credit_avaiable_field_names = []
+    report_available_field_names = ["day", "night"]
+    credit_available_field_names = []
+
     try:
         data = json.loads(filters)
-        for k, v in data.items():
-            if k not in report_avaiable_field_names if type == "report" else k not in credit_avaiable_field_names:
-                del data[k]
-                continue
-        return data
+        allowed = report_available_field_names if type == "report" else credit_available_field_names
+        return {k: v for k, v in data.items() if k in allowed}
     except:
         return None

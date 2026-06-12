@@ -6,7 +6,7 @@ from api.database.methods.medbook import add_new_book
 from api.tools.schemas import NewMedBook
 from api.tools.responses import HTTPSuccess
 
-medbook_handler = APIRouter("/api/medbook")
+medbook_handler = APIRouter(prefix="/api/medbook")
 logger = logging.getLogger(__name__)
 
 @medbook_handler.post("/create")
@@ -20,3 +20,4 @@ async def create_new_book(request: Request):
     )
     await add_new_book(data.full_name, data.inspect_end, data.fluorography_end, data.reference)
     return HTTPSuccess()
+

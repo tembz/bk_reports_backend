@@ -1,10 +1,11 @@
 from sqlalchemy import select, update, not_, func, String
 
 from api.database.models.credit import Credit
+from api.database.methods.filters import apply_credit_filters
 from api.database.engine import db_session
 from api.tools.formatting import parse_date
 
-async def get_db_credits(offset: int, limit: int):
+async def get_db_credits(offset: int, limit: int, filters: dict | None = None):
     stmt = (
         select(Credit)
         .order_by(
@@ -15,6 +16,8 @@ async def get_db_credits(offset: int, limit: int):
         .offset(offset)
         .limit(limit)
     )
+    if filters:
+        stmt = apply_credit_filters(stmt, filters)
     async with db_session() as session:
         result = await session.execute(stmt)
         return result.scalars().all()
@@ -47,7 +50,7 @@ async def add_new_credit(data: dict):
         session.add(credit)
         await session.commit()
     
-async def search_credits(q: str):
+async def search_credits(q: str, filters: dict | None = None):
     async with db_session() as session:
         stmt = (
             select(Credit)
@@ -67,5 +70,7 @@ async def search_credits(q: str):
             )
             .limit(30)
         )
+        if filters:
+            stmt = apply_credit_filters(stmt, filters)
         result = await session.execute(stmt)
         return result.scalars().all()

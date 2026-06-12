@@ -20,16 +20,15 @@ report_handler = APIRouter(prefix="/api/report")
 @report_handler.get("/get")
 async def get_reports(limit: int = Query(default=30, ge=1, le=100), 
                       offset: int = Query(default=0, ge=0), 
-                      date: Optional[str] = None, 
-                      report_type: Optional[Literal["day", "night"]] = None, 
+                      date: Optional[str] = None,
                       q: Optional[str] = None,
                       filters: Optional[str] = None):
     report_items = []
     filters = parse_filter(filters, "report")
     if q not in (None, "", "null"):
-        reports = await search_reports(q)
+        reports = await search_reports(q, filters)
     else:
-        reports = await get_db_reports(offset, limit, date, report_type)
+        reports = await get_db_reports(offset, limit, date, filters)
 
     for report, short_name in reports:
         report_dict = report.__dict__.copy()
