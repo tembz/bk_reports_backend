@@ -11,12 +11,15 @@ from api.tools.schemas import NewCredit
 credit_handler = APIRouter(prefix="/api/credit")
 
 @credit_handler.get("/get")
-async def get_credits(limit: int = Query(default=30, ge=1, le=100), offset: int = Query(default=0, ge=0), q: str | None = Query(default=None)):
+async def get_credits(limit: int = Query(default=30, ge=1, le=100), 
+                      offset: int = Query(default=0, ge=0), 
+                      q: str | None = None, 
+                      filters: str | None = None):
     
     if q not in (None, "", "null"):
-        credit_result = await search_credits(q)
+        credit_result = await search_credits(q, filters)
     else:
-        credit_result = await get_db_credits(offset, limit)
+        credit_result = await get_db_credits(offset, limit, filters)
     credit_list = []
 
     for credit in credit_result:
