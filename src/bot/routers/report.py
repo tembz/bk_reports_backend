@@ -1,3 +1,4 @@
+import json
 from datetime import timedelta, datetime
 
 from aiogram import Router, F
@@ -32,7 +33,7 @@ async def start_create_report(m: Message, state: FSMContext):
     if report_type == "night":
         current_date = current_date - timedelta(days=1)
 
-    reports = await api_client.get(ReportResponse, m.from_user.id, date=current_date.strftime("%Y-%m-%d"), report_type=report_type)
+    reports = await api_client.get(ReportResponse, m.from_user.id, date=current_date.strftime("%Y-%m-%d"), filters=json.dumps({report_type: True}))
     if reports.data.items:
         return await m.answer(f'{Emojis.sassy} Отчёт такого типа за сегодня уже был создан менеджером {reports.data.items[0].short_name}')
     
