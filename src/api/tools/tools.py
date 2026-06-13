@@ -19,7 +19,7 @@ def decode_secret(secret: str) -> Optional[int]:
 
 def parse_filter(filters: str, type: str) -> Optional[dict]:
     report_available_field_names = ["day", "night"]
-    credit_available_field_names = []
+    credit_available_field_names = ["only_transfer", "active", "inactive"]
 
     try:
         data = json.loads(filters)
