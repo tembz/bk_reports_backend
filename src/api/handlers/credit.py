@@ -7,6 +7,7 @@ from api.database.methods.credit import get_db_credits, update_credit_status, ad
 from api.tools.bot import send_credit_message_to_chat
 from api.tools.responses import *
 from api.tools.schemas import NewCredit
+from api.tools.tools import parse_filter
 
 credit_handler = APIRouter(prefix="/api/credit")
 
@@ -15,7 +16,7 @@ async def get_credits(limit: int = Query(default=30, ge=1, le=100),
                       offset: int = Query(default=0, ge=0), 
                       q: str | None = None, 
                       filters: str | None = None):
-    
+    filters = parse_filter(filters, "credit")
     if q not in (None, "", "null"):
         credit_result = await search_credits(q, filters)
     else:
